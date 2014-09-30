@@ -10,12 +10,16 @@ $config['search']		= array("#<span class=\"bildunterschrift\">.*<\/span>#Uis",
 								"#<h1>.*<\/h1>#Uis",
 								"#<!-- [a-z_-]+ -->#Uis",
 								"#<script.*>.*<\/script>#Uis",
-								"#<noscript>.*<\/noscript>#Uis");
+								"#<noscript>.*<\/noscript>#Uis",
+								"#<div class=\"video_titel\">[^<]*<\/div>#Uis",
+								"#http://www.heise.de//#Uis");
 $config['replace']		= array("",
 								"",
 								"",
 								"",
 								"",
-								"");
+								"",
+								"",
+								"//");
 
 ?>
