@@ -32,7 +32,7 @@ class RssExtender
 	private $itemNames = array("item", "entry");
 	private $timeNames = array("date", "updated", "pubDate");
 
-	public function RssExtender ()
+	public function __construct ()
 	{
 		$this->temporaryFolder = __DIR__ . "/tmp";
 		$this->configFolder = __DIR__ . "/config";
@@ -122,7 +122,7 @@ class RssExtender
 
 		$DOMDocument = new DOMDocument;
 		$DOMDocument->strictErrorChecking = false;
-		$DOMDocument->loadXML($feedContent);
+		@$DOMDocument->loadXML($feedContent);
 		$lastTime = $this->traverseDomAndExtendItemsAndGetEarliestChangedTime($feed, $DOMDocument->childNodes, $useCache);
 		$content = @$DOMDocument->saveXML();
 
@@ -323,7 +323,7 @@ class RssExtender
 	 *
 	 * @return string
 	 */
-	private function getFilteredContentOfUrl(Feed $feed, $url, $useCache, $time)
+	public function getFilteredContentOfUrl(Feed $feed, $url, $useCache, $time)
 	{
 		$file = $this->temporaryFolder . "/" . $feed->name . "/" . md5($url);
 		// get the article from cache
@@ -370,7 +370,7 @@ class RssExtender
 		if ($feed->contentSplitRegex != "")
 		{
 			preg_match($feed->contentSplitRegex, $originalContent, $match);
-			if ($match[$feed->contentSplitRegexPosition])
+			if (isset($match[$feed->contentSplitRegexPosition]) && $match[$feed->contentSplitRegexPosition])
 			{
 				$filteredContent = preg_replace($feed->contentSplitRegex, "", $filteredContent);
 				$filteredContent .= "\n<br><hr><br>\n";
